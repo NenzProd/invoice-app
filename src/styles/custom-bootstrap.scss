@@ -1,0 +1,192 @@
+// Optionally override Bootstrap variables before importing
+$primary: #0066ff;
+$font-family-base: 'Poppins', sans-serif;
+
+// Then import Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// Custom styles from style.css
+.bg-icon-circle {
+  background-color: $primary;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+}
+
+.bg-small-circle {
+  background-color: $primary;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.bg-circle {
+  background-color: $primary;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg-img-width {
+  width: 150px;
+  height: 150px;
+}
+
+.newInvoice-topBar {
+  background-color: #e7e8ee;
+  border-bottom: 1px solid #d7daef;
+}
+
+.newInvoice-body {
+  background-color: #f1f2f5;
+}
+
+.label-clr-size {
+  color: darken($primary, 15%);
+  font-size: 13px;
+}
+
+.font-size {
+  font-size: 14px;
+}
+
+.input-border {
+  border-bottom: 1px solid #e7e8ee;
+}
+
+// Positioning the icon to the right
+.input-with-icon {
+  position: relative;
+  
+  input {
+    padding-right: 30px; // Space for the icon
+  }
+}
+
+.icon-right {
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  transform: translateY(-50%);
+  pointer-events: none; // Prevents the icon from interfering with input field
+}
+
+.add-line-item {
+  border: 1.5px solid $primary;
+  color: $primary;
+}
+
+.clr-blue {
+  color: $primary;
+}
+
+.fs-13 {
+  font-size: 13px;
+}
+
+// Sidebar and dashboard styles
+.icon {
+  color: white;
+  font-size: 1.2rem; 
+}
+
+.sidebarNav-body {
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.sidebarNav-ul {
+  list-style: none;
+}
+
+.bottom-close-icon {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  
+  .icon {
+    color: black;
+  }
+}
+
+.dashboard-layout {
+  min-height: 100vh;
+  position: relative;
+}
+
+// Sidebar overlay styles
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1030;
+  transition: all 0.3s ease;
+  
+  &.open {
+    width: 250px;
+  }
+  
+  &.closed {
+    width: 0;
+    overflow: hidden;
+  }
+  
+  & + .content-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1020;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  &.open + .content-container::before {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Content container styles
+.content-container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.dashboard-body {
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 60px);
+}
+
+// Home page styles
+.home-bg-color {
+  background-color: #f8f9fa;
+}
+
+.btn-create {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}

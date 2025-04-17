@@ -1,1 +1,1 @@
-# invoice-app
+# Invoice App
