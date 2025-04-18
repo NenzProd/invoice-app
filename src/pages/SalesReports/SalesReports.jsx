@@ -14,7 +14,7 @@ const SalesReports = () => {
   const salesData = [
     {
       id: 'INV-000001',
-      customer: 'harimidhu organic',
+      customer: 'tensketch',
       date: '2025-04-12',
       amount: 5000.00,
       status: 'paid'

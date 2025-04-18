@@ -115,7 +115,11 @@ const Customer = () => {
   );
 
   const CustomerCard = ({ customer }) => (
-    <div className="customer-card d-flex p-3 border-bottom">
+    <div 
+      className="customer-card d-flex p-3 border-bottom"
+      onClick={() => navigate(`/dashboard/customers/${customer.id}`)}
+      style={{ cursor: 'pointer' }}
+    >
       <div className="me-3">
         <CustomerAvatar initials={customer.initials} color={customer.color} />
       </div>

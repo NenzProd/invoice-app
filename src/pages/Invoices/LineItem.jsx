@@ -10,8 +10,7 @@ const LineItem = () => {
     item: '',
     description: '',
     quantity: '1.00',
-    rate: '',
-    unit: 'kg'
+    rate: ''
   })
   const [showSuggestions, setShowSuggestions] = useState(false)
   const suggestionRef = useRef(null)
@@ -94,8 +93,7 @@ const LineItem = () => {
       name: formData.item,
       description: formData.description,
       quantity: parseFloat(formData.quantity),
-      rate: parseFloat(formData.rate),
-      unit: formData.unit
+      rate: parseFloat(formData.rate)
     }
     
     // Combine with existing items
@@ -122,8 +120,7 @@ const LineItem = () => {
       name: formData.item,
       description: formData.description,
       quantity: parseFloat(formData.quantity),
-      rate: parseFloat(formData.rate),
-      unit: formData.unit
+      rate: parseFloat(formData.rate)
     }
     
     // Update existing items (will be used when saving)
@@ -134,8 +131,7 @@ const LineItem = () => {
       item: '',
       description: '',
       quantity: '1.00',
-      rate: '',
-      unit: 'kg'
+      rate: ''
     })
   }
 
@@ -153,8 +149,7 @@ const LineItem = () => {
       item: suggestion.name,
       description: suggestion.description,
       quantity: formData.quantity,
-      rate: suggestion.rate.toString(),
-      unit: suggestion.unit
+      rate: suggestion.rate.toString()
     })
     setShowSuggestions(false)
   }
@@ -227,18 +222,15 @@ const LineItem = () => {
 
           <div className='mb-3'>
             <label className='form-label text-primary'>Quantity <span className='text-danger'>*</span></label>
-            <div className='input-group'>
-              <input
-                type='number'
-                className='form-control'
-                placeholder='Enter quantity'
-                name='quantity'
-                value={formData.quantity}
-                onChange={handleInputChange}
-                required
-              />
-              <span className='input-group-text bg-light'>{formData.unit}</span>
-            </div>
+            <input
+              type='number'
+              className='form-control'
+              placeholder='Enter quantity'
+              name='quantity'
+              value={formData.quantity}
+              onChange={handleInputChange}
+              required
+            />
           </div>
 
           <div className='mb-3'>

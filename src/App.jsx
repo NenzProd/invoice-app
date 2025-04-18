@@ -7,11 +7,13 @@ import Index from './pages/Index';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Home from './pages/Home/Home';
 import Customers from './pages/Customers/Customers';
+import CustomerDetails from './pages/Customers/CustomerDetails';
 import CreateCustomer from './pages/Customers/CreateCustomer';
 import Address from './pages/Customers/Address';
 import Items from './pages/Items/Items';
 import CreateItem from './pages/Items/CreateItem';
 import Invoices from './pages/Invoices/Invoices'
+import InvoiceDetails from './pages/Invoices/InvoiceDetails';
 import CreateInvoice from './pages/Invoices/CreateInvoice';
 import SalesReports from './pages/SalesReports/SalesReports';
 import Settings from './pages/Settings/Settings';
@@ -50,9 +52,11 @@ const App = () => {
         <Route path='/dashboard' element={<Dashboard />}>
           <Route index element={<Home />} />
           <Route path="customers" element={<Customers />} />
+          <Route path="customers/:id" element={<CustomerDetails />} />
           <Route path="createCustomer" element={<CreateCustomer />} />
           <Route path="createCustomer/address" element={<Address />} />
           <Route path="invoices" element={<Invoices />} />
+          <Route path="invoices/:id" element={<InvoiceDetails />} />
           <Route path="createInvoice" element={<CreateInvoice />} />
           <Route path="lineItem" element={<LineItem />} />
           <Route path="expenses" element={<Expenses />} />

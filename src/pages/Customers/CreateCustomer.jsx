@@ -9,6 +9,75 @@ const CreateCustomer = () => {
     const [showSocialInputs, setShowSocialInputs] = useState(false);
     const [billingAddress, setBillingAddress] = useState(null);
     const [shippingAddress, setShippingAddress] = useState(null);
+    const [formData, setFormData] = useState({
+        salutation: '',
+        firstName: '',
+        lastName: '',
+        companyName: '',
+        customerDisplayName: '',
+        email: '',
+        phone: '',
+        mobile: '',
+        website: '',
+        facebook: '',
+        twitter: '',
+        remarks: ''
+    });
+    const [showDisplayNameSuggestions, setShowDisplayNameSuggestions] = useState(false);
+    
+    const salutationOptions = [
+        { value: 'mr', label: 'Mr.' },
+        { value: 'mrs', label: 'Mrs.' },
+        { value: 'ms', label: 'Ms.' },
+        { value: 'miss', label: 'Miss' },
+        { value: 'dr', label: 'Dr.' }
+    ];
+
+    const generateDisplayNameSuggestions = () => {
+        const { firstName, lastName, companyName } = formData;
+        if (!firstName && !lastName && !companyName) return [];
+        
+        const suggestions = [];
+        
+        if (companyName) {
+            suggestions.push(companyName);
+        }
+        
+        if (firstName && lastName) {
+            suggestions.push(`${firstName} ${lastName}`);
+            suggestions.push(`${lastName}, ${firstName}`);
+        }
+        
+        if (companyName && firstName && lastName) {
+            suggestions.push(`${companyName} (${firstName} ${lastName})`);
+            suggestions.push(`${firstName} ${lastName} - ${companyName}`);
+        }
+        
+        return suggestions;
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleDisplayNameSuggestionClick = (suggestion) => {
+        setFormData(prev => ({ ...prev, customerDisplayName: suggestion }));
+        setShowDisplayNameSuggestions(false);
+    };
+
+    const handleDisplayNameFocus = () => {
+        if (formData.firstName || formData.lastName || formData.companyName) {
+            setShowDisplayNameSuggestions(true);
+        }
+    };
+
+    const handleDisplayNameBlur = () => {
+        // Small delay to allow clicking on suggestions
+        setTimeout(() => {
+            setShowDisplayNameSuggestions(false);
+        }, 200);
+    };
     
     // Check if returning from address page with data
     useEffect(() => {
@@ -158,12 +227,20 @@ const CreateCustomer = () => {
                         <div className='w-25'>
                             <div className='d-flex flex-column my-2 mb-3 '>
                                 <label className='label-clr-size required'>Salutation</label>
-                                <input
-                                    type="text"
+                                <select
                                     className="font-size input-border border-top-0 border-start-0 border-end-0"
-                                    id="Salutation"
-                                    name="Salutation"
-                                />
+                                    id="salutation"
+                                    name="salutation"
+                                    value={formData.salutation}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">Select</option>
+                                    {salutationOptions.map((option) => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
                         <div className='w-75'>
@@ -172,12 +249,13 @@ const CreateCustomer = () => {
                                 <input
                                     type="text"
                                     className="font-size input-border border-top-0 border-start-0 border-end-0"
-                                    id="FirstName"
-                                    name="FirstName"
+                                    id="firstName"
+                                    name="firstName"
+                                    value={formData.firstName}
+                                    onChange={handleInputChange}
                                 />
                             </div>
                         </div>
-
                     </div>
 
                     <div className='d-flex flex-column my-2 mb-3 '>
@@ -185,29 +263,52 @@ const CreateCustomer = () => {
                         <input
                             type="text"
                             className="font-size input-border border-top-0 border-start-0 border-end-0"
-                            id="LastName"
-                            name="LastName"
+                            id="lastName"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleInputChange}
                         />
                     </div>
 
                     <div className='d-flex flex-column my-2 mb-3 '>
-                        <label className='label-clr-size required'>Company  Name</label>
+                        <label className='label-clr-size required'>Company Name</label>
                         <input
                             type="text"
                             className="font-size input-border border-top-0 border-start-0 border-end-0"
-                            id="CustomerName"
-                            name="CustomerName"
+                            id="companyName"
+                            name="companyName"
+                            value={formData.companyName}
+                            onChange={handleInputChange}
                         />
                     </div>
 
-                    <div className='d-flex flex-column my-2 mb-3 '>
+                    <div className='d-flex flex-column my-2 mb-3 position-relative'>
                         <label className='label-clr-size required'>Customer Display Name <span className="text-danger">*</span></label>
                         <input
                             type="text"
                             className="font-size input-border border-top-0 border-start-0 border-end-0"
-                            id="CustomerDisplayName"
-                            name="CustomerDisplayName"
+                            id="customerDisplayName"
+                            name="customerDisplayName"
+                            value={formData.customerDisplayName}
+                            onChange={handleInputChange}
+                            onFocus={handleDisplayNameFocus}
+                            onBlur={handleDisplayNameBlur}
                         />
+                        {showDisplayNameSuggestions && generateDisplayNameSuggestions().length > 0 && (
+                            <div className="position-absolute bg-white border rounded shadow-sm w-100 mt-1 z-index-dropdown"
+                                style={{ maxHeight: '200px', overflowY: 'auto', zIndex: 1000 }}>
+                                {generateDisplayNameSuggestions().map((suggestion, index) => (
+                                    <div
+                                        key={index}
+                                        className="p-2 border-bottom cursor-pointer hover-bg-light"
+                                        onClick={() => handleDisplayNameSuggestionClick(suggestion)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        {suggestion}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     <div className='d-flex flex-column my-2 mb-3 '>

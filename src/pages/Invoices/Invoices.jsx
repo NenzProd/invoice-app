@@ -14,7 +14,7 @@ const Invoices = () => {
   const invoices = [
     {
       id: 'INV-000001',
-      customer: 'harimidhu organic',
+      customer: 'tensketch',
       date: '12 Apr 2025',
       amount: 5000.00,
       dueStatus: 'Due',
@@ -74,7 +74,11 @@ const Invoices = () => {
   };
 
   const InvoiceItem = ({ invoice }) => (
-    <div className="invoice-item border-bottom p-3" onClick={() => navigate(`/dashboard/invoice/${invoice.id}`)}>
+    <div 
+      className="invoice-item border-bottom p-3" 
+      onClick={() => navigate(`/dashboard/invoices/${invoice.id}`)}
+      style={{ cursor: 'pointer' }}
+    >
       <div className="d-flex justify-content-between">
         <div>
           <div className="fw-bold">{invoice.customer}</div>
