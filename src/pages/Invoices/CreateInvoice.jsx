@@ -446,17 +446,7 @@ const CreateInvoice = () => {
                 </div>
             </div>
 
-            <div className='bg-white mx-2 mt-2 border rounded px-3 py-2'>
-                <div className='d-flex flex-column my-2 mb-3'>
-                    <label className='label-clr-size required'>Attachments</label>
-                    <input
-                        type="file"
-                        className="font-size my-2"
-                        id="Attachments"
-                        name="Attachments"
-                    />
-                </div>
-            </div>
+          
         </div>
     )
 }

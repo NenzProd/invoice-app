@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faAddressBook, faChevronDown, faCirclePlus, faTimes, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faAddressBook, faChevronDown, faPencil } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const CreateCustomer = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [showSocialInputs, setShowSocialInputs] = useState(false);
     const [billingAddress, setBillingAddress] = useState(null);
     const [shippingAddress, setShippingAddress] = useState(null);
     const [formData, setFormData] = useState({
@@ -19,18 +18,16 @@ const CreateCustomer = () => {
         phone: '',
         mobile: '',
         website: '',
-        facebook: '',
-        twitter: '',
         remarks: ''
     });
     const [showDisplayNameSuggestions, setShowDisplayNameSuggestions] = useState(false);
     
     const salutationOptions = [
-        { value: 'mr', label: 'Mr.' },
-        { value: 'mrs', label: 'Mrs.' },
-        { value: 'ms', label: 'Ms.' },
+        { value: 'mr', label: 'Mr' },
+        { value: 'mrs', label: 'Mrs' },
+        { value: 'ms', label: 'Ms' },
         { value: 'miss', label: 'Miss' },
-        { value: 'dr', label: 'Dr.' }
+        { value: 'dr', label: 'Dr' }
     ];
 
     const generateDisplayNameSuggestions = () => {
@@ -144,10 +141,6 @@ const CreateCustomer = () => {
         });
     };
     
-    const toggleSocialInputs = () => {
-        setShowSocialInputs(!showSocialInputs);
-    };
-
     // Render an address summary card
     const renderAddressSummary = (address, type) => {
         if (!address) return null;
@@ -345,6 +338,27 @@ const CreateCustomer = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* Address Section */}
+                    <div className='mt-4 mb-3'>
+                        <h5 className='font-size mb-3'>Address Information</h5>
+                        
+                        {/* Show existing addresses if any */}
+                        {billingAddress && renderAddressSummary(billingAddress, 'billing')}
+                        {shippingAddress && renderAddressSummary(shippingAddress, 'shipping')}
+                        
+                        {/* Show Add Address button if at least one address is missing */}
+                        {(!billingAddress || !shippingAddress) && (
+                            <div className='d-flex align-items-center'>
+                                <div 
+                                    className='btn btn-sm btn-outline-primary'
+                                    onClick={() => handleAddressClick(billingAddress ? 'shipping' : 'billing')}
+                                >
+                                    Add Address
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className='bg-white m-2 border rounded px-3 py-2'>
@@ -386,92 +400,19 @@ const CreateCustomer = () => {
                         </datalist>
                     </div>
       
-                    <div 
-                        className='clr-blue fs-13 d-flex align-items-center' 
-                        style={{ cursor: 'pointer' }}
-                        onClick={toggleSocialInputs}
-                    >
-                        {showSocialInputs ? (
-                            <FontAwesomeIcon icon={faTimes} className='me-2' />
-                        ) : (
-                            <FontAwesomeIcon icon={faCirclePlus} className='me-2' />
-                        )}
-                        <p className='mb-0'>Add Websites & Social</p>
+                    <div className='d-flex flex-column my-2 mb-3'>
+                        <label className='label-clr-size'>Website</label>
+                        <input
+                            type="url"
+                            className="font-size input-border border-top-0 border-start-0 border-end-0"
+                            id="website"
+                            name="website"
+                            placeholder="https://"
+                            value={formData.website}
+                            onChange={handleInputChange}
+                        />
                     </div>
-                    
-                    {showSocialInputs && (
-                        <div className='mt-3'>
-                            <div className='d-flex flex-column my-2 mb-3'>
-                                <label className='label-clr-size'>Website</label>
-                                <input
-                                    type="url"
-                                    className="font-size input-border border-top-0 border-start-0 border-end-0"
-                                    id="website"
-                                    name="website"
-                                    placeholder="https://"
-                                />
-                            </div>
-                            
-                            <div className='d-flex flex-column my-2 mb-3'>
-                                <label className='label-clr-size'>Facebook</label>
-                                <input
-                                    type="url"
-                                    className="font-size input-border border-top-0 border-start-0 border-end-0"
-                                    id="facebook"
-                                    name="facebook"
-                                    placeholder="https://facebook.com/"
-                                />
-                            </div>
-                            
-                            <div className='d-flex flex-column my-2 mb-3'>
-                                <label className='label-clr-size'>Twitter</label>
-                                <input
-                                    type="url"
-                                    className="font-size input-border border-top-0 border-start-0 border-end-0"
-                                    id="twitter"
-                                    name="twitter"
-                                    placeholder="https://twitter.com/"
-                                />
-                            </div>
-                        </div>
-                    )}
-
                 </div>
-
-                {/* Address Section */}
-                <div className='bg-white m-2 border rounded px-3 py-3'>
-                    <h5 className='font-size mb-3'>Address Information</h5>
-                    
-                    {/* Render the billing address if it exists */}
-                    {billingAddress ? (
-                        renderAddressSummary(billingAddress, 'billing')
-                    ) : (
-                        <div 
-                            className='d-flex align-items-center clr-blue mb-3' 
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => handleAddressClick('billing')}
-                        >
-                            <FontAwesomeIcon icon={faCirclePlus} />
-                            <span className='font-size mx-2'>Add Billing Address</span>
-                        </div>
-                    )}
-                    
-                    {/* Render the shipping address if it exists */}
-                    {shippingAddress ? (
-                        renderAddressSummary(shippingAddress, 'shipping')
-                    ) : (
-                        <div 
-                            className='d-flex align-items-center clr-blue' 
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => handleAddressClick('shipping')}
-                        >
-                            <FontAwesomeIcon icon={faCirclePlus} />
-                            <span className='font-size mx-2'>Add Shipping Address</span>
-                        </div>
-                    )}
-                </div>
-
-              
 
                 <div className='bg-white mx-2 mt-2 border rounded px-3 py-2'>
                     <div className='d-flex flex-column my-2 mb-3'>

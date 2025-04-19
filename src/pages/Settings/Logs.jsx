@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 
-const UsageStats = () => {
+const Logs = () => {
   const navigate = useNavigate()
 
   return (
@@ -15,7 +15,7 @@ const UsageStats = () => {
           style={{ cursor: 'pointer' }} 
           onClick={() => navigate('/dashboard/settings')}
         />
-        <h5 className="mb-0">Usage Stats</h5>
+        <h5 className="mb-0">Logs</h5>
       </div>
       
       <div className="bg-light p-5 text-center rounded">
@@ -25,4 +25,4 @@ const UsageStats = () => {
   )
 }
 
-export default UsageStats 
+export default Logs 

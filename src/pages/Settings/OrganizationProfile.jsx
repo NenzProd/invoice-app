@@ -20,6 +20,10 @@ const OrganizationProfile = () => {
     phone: '',
     fax: '',
     website: '',
+    gstNo: '',
+    panNo: '',
+    cinNo: '',
+    tanNo: '',
     updateAddressInTransactions: false,
     addDifferentAddressForPaymentStubs: false,
   });
@@ -160,6 +164,78 @@ const OrganizationProfile = () => {
               <div className="text-muted small mt-1">
                 {formData.portalUrl}
               </div>
+            </div>
+          </div>
+
+          {/* GST Number */}
+          <div className="mb-3 row">
+            <label htmlFor="gstNo" className="form-label col-md-3">
+              GST NO.
+            </label>
+            <div className="col-md-9">
+              <input
+                type="text"
+                className="form-control"
+                id="gstNo"
+                name="gstNo"
+                value={formData.gstNo}
+                onChange={handleChange}
+                placeholder="29AADCB2230M1ZP"
+              />
+            </div>
+          </div>
+
+          {/* PAN Number */}
+          <div className="mb-3 row">
+            <label htmlFor="panNo" className="form-label col-md-3">
+              PAN NO.
+            </label>
+            <div className="col-md-9">
+              <input
+                type="text"
+                className="form-control"
+                id="panNo"
+                name="panNo"
+                value={formData.panNo}
+                onChange={handleChange}
+                placeholder="AADCB2230M"
+              />
+            </div>
+          </div>
+
+          {/* CIN Number */}
+          <div className="mb-3 row">
+            <label htmlFor="cinNo" className="form-label col-md-3">
+              CIN NO.
+            </label>
+            <div className="col-md-9">
+              <input
+                type="text"
+                className="form-control"
+                id="cinNo"
+                name="cinNo"
+                value={formData.cinNo}
+                onChange={handleChange}
+                placeholder="U72200TN2014PTC098455"
+              />
+            </div>
+          </div>
+
+          {/* TAN Number */}
+          <div className="mb-3 row">
+            <label htmlFor="tanNo" className="form-label col-md-3">
+              TAN NO.
+            </label>
+            <div className="col-md-9">
+              <input
+                type="text"
+                className="form-control"
+                id="tanNo"
+                name="tanNo"
+                value={formData.tanNo}
+                onChange={handleChange}
+                placeholder="CHEN12345A"
+              />
             </div>
           </div>
 
@@ -339,7 +415,7 @@ const OrganizationProfile = () => {
           onClick={handleSave}
         >
           <FontAwesomeIcon icon={faSave} className="me-2" />
-          SEND
+          SAVE
         </button>
       </div>
     </div>

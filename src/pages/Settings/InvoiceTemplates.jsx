@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEdit, faDownload, faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 
-const PdfTemplates = () => {
+const InvoiceTemplates = () => {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('invoice')
   const [formData, setFormData] = useState({
@@ -57,12 +57,12 @@ const PdfTemplates = () => {
           className="me-3" 
           style={{ cursor: 'pointer' }}
         />
-        <h3>PDF Templates</h3>
+        <h3>Invoice Templates</h3>
       </div>
       <div className="d-flex align-items-center justify-content-center py-2">
         <form className="col-12 col-sm-10 col-md-9" onSubmit={handleSubmit}>
           <div className="text-center">
-            <h4 className="mb-5">Document Templates</h4>
+            <h4 className="mb-5">Invoice Templates</h4>
           </div>
 
           <ul className="nav nav-tabs mb-4">
@@ -216,4 +216,4 @@ const PdfTemplates = () => {
   )
 }
 
-export default PdfTemplates 
+export default InvoiceTemplates 
