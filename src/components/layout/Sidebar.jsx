@@ -33,18 +33,18 @@ SidebarItem.propTypes = {
   isActive: PropTypes.bool.isRequired
 };
 
-const Sidebar = ({ onClose }) => {
+const Sidebar = ({ onClose, isOpen }) => {
   const location = useLocation();
   const currentPath = location.pathname;
   
   return (
-    <aside className="bg-dark vh-100 sidebarNav-body">
+    <aside className={`bg-dark vh-100 sidebarNav-body ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-header pt-4 ps-3 pe-3 mb-4 d-flex justify-content-between align-items-center">
         <Link to="/" className="text-decoration-none d-flex align-items-center">
           <img src={invoiceLogo} alt="Invoice Logo" width="30px" height="30px" className="rounded-circle" />
           <h3 className="d-inline text-white mx-2">Invoice</h3>
         </Link>
-        <div className="close-button text-white" onClick={onClose} style={{ cursor: 'pointer' }}>
+        <div className="close-button text-white d-lg-none" onClick={onClose} style={{ cursor: 'pointer' }}>
           <FontAwesomeIcon icon={faX} className="icon" />
         </div>
       </div>
@@ -58,14 +58,13 @@ const Sidebar = ({ onClose }) => {
         <SidebarItem to="/dashboard/salesreports" icon={faChartColumn} text="Sales Reports" isActive={currentPath === '/dashboard/salesreports'} />
         <SidebarItem to="/dashboard/settings" icon={faGear} text="Settings" isActive={currentPath === '/dashboard/settings'} />
       </nav>
-      
-      
     </aside>
   );
 };
 
 Sidebar.propTypes = {
   onClose: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
 };
 
 export default Sidebar;

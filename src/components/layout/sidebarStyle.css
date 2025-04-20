@@ -2,14 +2,15 @@
     color: white;
     font-size: 1.2rem; 
   }
-  .sidebarNav-body{
-    position: sticky;
+  .sidebarNav-body {
+    position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
     width: 250px;
     transition: all 0.3s ease;
     z-index: 100;
+    background-color: #343a40;
   }
   .sidebarNav-ul {
     list-style: none;
@@ -150,4 +151,74 @@
   .btn-create {
     padding: 0.5rem 1rem;
     border-radius: 4px;
+  }
+
+  /* Media query for desktop screens */
+  @media (min-width: 992px) {
+    .sidebarNav-body {
+      position: fixed;
+      left: 0;
+      transform: none;
+    }
+    
+    .content-container {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+    }
+
+    /* Remove overlay effect for desktop */
+    .dashboard-layout::before {
+      display: none;
+    }
+    
+    .sidebar-overlay.open + .content-container::before {
+      display: none;
+    }
+  }
+
+  /* Media query for mobile screens */
+  @media (max-width: 991px) {
+    .sidebarNav-body {
+      position: fixed;
+      left: -250px;
+      transform: translateX(0);
+    }
+    
+    .sidebarNav-body.open {
+      left: 0;
+    }
+    
+    .content-container {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    /* Keep overlay effect for mobile */
+    .dashboard-layout::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1020;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .sidebar-overlay.open + .content-container::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1020;
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.3s ease;
+    }
   }

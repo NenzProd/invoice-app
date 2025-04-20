@@ -169,17 +169,10 @@ const CreateCustomer = () => {
     };
 
     return (
-        <div className='newInvoice-body pb-2' style={{ marginTop: '60px' }}>
+        <div className='newInvoice-body pb-2' >
             <div 
                 className='d-flex align-items-center justify-content-between py-3 px-4 bg-white border-bottom'
-                style={{
-                    position: 'fixed',
-                    top: '56px',
-                    left: 0,
-                    right: 0,
-                    zIndex: 999,
-                    height: '60px'
-                }}
+               
             >
                 <div className='d-flex align-items-center'>
                     <FontAwesomeIcon 
@@ -196,7 +189,7 @@ const CreateCustomer = () => {
                 </div>
             </div>
 
-            <div style={{ marginTop: '60px' }}>
+            <div >
                 <div className='bg-white m-2 border rounded px-3 py-2'>
                     <h5 className='font-size'>Customer Information</h5>
                     <div className='d-flex flex-column my-2 mb-3 '>

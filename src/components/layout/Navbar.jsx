@@ -1,7 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faBars, faUser, faSignOutAlt, faBuilding } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faBell, 
+  faBars, 
+  faUser, 
+  faSignOutAlt, 
+  faBuilding,
+  faPlus,
+  faFileInvoice,
+  faUserPlus,
+  faBox
+} from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ onMenuClick, text }) => {
@@ -17,6 +27,22 @@ const Navbar = ({ onMenuClick, text }) => {
     navigate('/dashboard/settings/organization-profile');
   };
 
+  const handleCreateClick = (type) => {
+    switch (type) {
+      case 'invoice':
+        navigate('/dashboard/createInvoice');
+        break;
+      case 'customer':
+        navigate('/dashboard/createCustomer');
+        break;
+      case 'item':
+        navigate('/dashboard/createItem');
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <header className='sticky-top'>
       <nav className="d-flex justify-content-between p-3 align-items-center bg-dark text-white">
@@ -25,12 +51,51 @@ const Navbar = ({ onMenuClick, text }) => {
             icon={faBars} 
             onClick={onMenuClick} 
             style={{ cursor: 'pointer' }} 
-            className="toggle-icon"
+            className="toggle-icon d-lg-none"
           />
           <h5 className="m-0">{text}</h5>
         </div>
         <div className="d-flex align-items-center gap-3">
-      
+          <div className="dropdown">
+            <button
+              className="btn btn-success d-flex align-items-center gap-2"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <FontAwesomeIcon icon={faPlus} />
+            
+            </button>
+            <ul className="dropdown-menu dropdown-menu-end">
+              <li>
+                <button 
+                  className="dropdown-item d-flex align-items-center" 
+                  onClick={() => handleCreateClick('invoice')}
+                >
+                  <FontAwesomeIcon icon={faFileInvoice} className="me-2" />
+                  Create Invoice
+                </button>
+              </li>
+              <li>
+                <button 
+                  className="dropdown-item d-flex align-items-center" 
+                  onClick={() => handleCreateClick('customer')}
+                >
+                  <FontAwesomeIcon icon={faUserPlus} className="me-2" />
+                  Create Customer
+                </button>
+              </li>
+              <li>
+                <button 
+                  className="dropdown-item d-flex align-items-center" 
+                  onClick={() => handleCreateClick('item')}
+                >
+                  <FontAwesomeIcon icon={faBox} className="me-2" />
+                  Create Item
+                </button>
+              </li>
+            </ul>
+          </div>
 
           <div className="dropdown">
             <button

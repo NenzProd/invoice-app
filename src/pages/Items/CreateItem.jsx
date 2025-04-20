@@ -69,16 +69,10 @@ const CreateItem = () => {
     };
 
     return (
-        <div className='newInvoice-body pb-2 vh-100' style={{ marginTop: '60px' }} >
+        <div className='newInvoice-body pb-2 vh-100' >
              <div 
                 className='d-flex align-items-center justify-content-between py-3 px-4 bg-white border-bottom'
-                style={{
-                    position: 'fixed',
-                    top: '56px',
-                    left: 0,
-                    right: 0,
-
-                }}
+             
             >
                 <div className='d-flex align-items-center'>
                     <FontAwesomeIcon 

@@ -4,9 +4,9 @@ import Navbar from '@/components/layout/Navbar';
 import Sidebar from '@/components/layout/Sidebar';
 
 const Dashboard = () => {
-  const [isSidebarOpen, setSidebarOpen] = useState(false); // Default to closed
-  const [navText, setNavText] = useState('Home'); // Default text
-  const location = useLocation(); // Get the current location
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [navText, setNavText] = useState('Home');
+  const location = useLocation();
   const sidebarRef = useRef(null);
   const prevPathRef = useRef(location.pathname);
 
@@ -106,18 +106,30 @@ const Dashboard = () => {
       }
     }
     
-    // Close sidebar when route changes
-    if (prevPathRef.current !== location.pathname) {
+    // Close sidebar when route changes on mobile
+    if (window.innerWidth < 992 && prevPathRef.current !== location.pathname) {
       closeSidebar();
       prevPathRef.current = location.pathname;
     }
   }, [location.pathname]);
 
   useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 992) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
-      // Only handle clicks when sidebar is open
       if (isSidebarOpen && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-        // Check if click is on hamburger menu or inside the sidebar
         const isNavbarHamburgerClicked = event.target.closest('.toggle-icon');
         if (!isNavbarHamburgerClicked) {
           closeSidebar();
@@ -134,12 +146,12 @@ const Dashboard = () => {
   return (
     <div className="dashboard-layout">
       <div className={`sidebar-overlay ${isSidebarOpen ? 'open' : 'closed'}`} ref={sidebarRef}>
-        <Sidebar onClose={closeSidebar} />
+        <Sidebar onClose={closeSidebar} isOpen={isSidebarOpen} />
       </div>
       <div className="content-container">
         <Navbar onMenuClick={toggleSidebar} text={navText} />
         <main className="dashboard-body">
-          <Outlet /> {/* Render nested routes */}
+          <Outlet />
         </main>
       </div>
     </div>

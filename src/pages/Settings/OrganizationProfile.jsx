@@ -26,6 +26,9 @@ const OrganizationProfile = () => {
     tanNo: '',
     updateAddressInTransactions: false,
     addDifferentAddressForPaymentStubs: false,
+    gstRegistrationStatus: 'unregistered',
+    gstTaxType: '',
+    gstTaxRate: '',
   });
   const [logoUrl, setLogoUrl] = useState(null);
 
@@ -167,23 +170,133 @@ const OrganizationProfile = () => {
             </div>
           </div>
 
-          {/* GST Number */}
+          {/* GST Registration Status */}
           <div className="mb-3 row">
-            <label htmlFor="gstNo" className="form-label col-md-3">
-              GST NO.
+            <label className="form-label col-md-3">
+              GST Registration Status <span className="text-danger">*</span>
             </label>
             <div className="col-md-9">
-              <input
-                type="text"
-                className="form-control"
-                id="gstNo"
-                name="gstNo"
-                value={formData.gstNo}
-                onChange={handleChange}
-                placeholder="29AADCB2230M1ZP"
-              />
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="gstRegistrationStatus"
+                  id="gstRegistered"
+                  value="registered"
+                  checked={formData.gstRegistrationStatus === 'registered'}
+                  onChange={handleChange}
+                />
+                <label className="form-check-label" htmlFor="gstRegistered">
+                  Registered
+                </label>
+              </div>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="gstRegistrationStatus"
+                  id="gstUnregistered"
+                  value="unregistered"
+                  checked={formData.gstRegistrationStatus === 'unregistered'}
+                  onChange={handleChange}
+                />
+                <label className="form-check-label" htmlFor="gstUnregistered">
+                  Unregistered
+                </label>
+              </div>
             </div>
           </div>
+
+          {/* GST Number - Only shown when registered */}
+          {formData.gstRegistrationStatus === 'registered' && (
+            <>
+              <div className="mb-3 row">
+                <label htmlFor="gstNo" className="form-label col-md-3">
+                  GST NO. <span className="text-danger">*</span>
+                </label>
+                <div className="col-md-9">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="gstNo"
+                    name="gstNo"
+                    value={formData.gstNo}
+                    onChange={handleChange}
+                    placeholder="29AADCB2230M1ZP"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* GST Tax Type - Only shown when GST number is entered */}
+              {formData.gstNo && (
+                <>
+                  <div className="mb-3 row">
+                    <label className="form-label col-md-3">
+                      GST Tax Type <span className="text-danger">*</span>
+                    </label>
+                    <div className="col-md-9">
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="gstTaxType"
+                          id="regular"
+                          value="regular"
+                          checked={formData.gstTaxType === 'regular'}
+                          onChange={handleChange}
+                        />
+                        <label className="form-check-label" htmlFor="regular">
+                          Regular
+                        </label>
+                      </div>
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="gstTaxType"
+                          id="composite"
+                          value="composite"
+                          checked={formData.gstTaxType === 'composite'}
+                          onChange={handleChange}
+                        />
+                        <label className="form-check-label" htmlFor="composite">
+                          Composite
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Tax Rate Selection - Only shown for Regular tax type */}
+                  {formData.gstTaxType === 'regular' && (
+                    <div className="mb-3 row">
+                      <label htmlFor="gstTaxRate" className="form-label col-md-3">
+                        Tax Rate <span className="text-danger">*</span>
+                      </label>
+                      <div className="col-md-9">
+                        <select
+                          className="form-select"
+                          id="gstTaxRate"
+                          name="gstTaxRate"
+                          value={formData.gstTaxRate}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">Select Tax Rate</option>
+                          <option value="0">0%</option>
+                          <option value="5">5%</option>
+                          <option value="12">12%</option>
+                          <option value="18">18%</option>
+                          <option value="25">25%</option>
+                          <option value="28">28%</option>
+                        </select>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </>
+          )}
 
           {/* PAN Number */}
           <div className="mb-3 row">
