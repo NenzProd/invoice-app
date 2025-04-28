@@ -23,7 +23,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 ChartJS.register(
   CategoryScale,
@@ -49,12 +49,15 @@ const IconCard = ({ icon, label, path }) => {
       onClick={handleClick}
       style={{ cursor: path ? 'pointer' : 'default' }}
     >
-      <div className="d-flex justify-content-center mb-1">
-        <div className="bg-circle d-flex align-items-center justify-content-center">
+      <div className="d-flex justify-content-center mb-2">
+        <div 
+          className="bg-circle d-flex align-items-center justify-content-center"
+          style={{ width: '60px', height: '60px', fontSize: '1.3rem' }}
+        >
           <FontAwesomeIcon icon={icon} />
         </div>
       </div>
-      <p className="text-center small m-0">{label}</p>
+      <p className="text-center m-0" style={{ fontSize: '1rem' }}>{label}</p>
     </div>
   );
 };
@@ -67,6 +70,16 @@ IconCard.propTypes = {
 
 const MetricCard = ({ title, value, change, isUp, isIncrease, icon, path }) => {
   const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   const handleClick = () => {
     if (path) {
@@ -80,17 +93,30 @@ const MetricCard = ({ title, value, change, isUp, isIncrease, icon, path }) => {
       onClick={handleClick}
       style={{ cursor: path ? 'pointer' : 'default' }}
     >
-      <div className="bg-white p-3 rounded d-flex align-items-center shadow-sm h-100">
-        <div className="bg-light rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px', minWidth: '40px' }}>
-          <FontAwesomeIcon icon={icon} className="text-primary" size="sm" />
+      <div className="bg-white p-2 p-md-3 rounded d-flex align-items-center shadow-sm h-100">
+        <div 
+          className="bg-light rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+          style={{ 
+            width: isMobile ? '35px' : '45px', 
+            height: isMobile ? '35px' : '45px',
+            fontSize: isMobile ? '0.85rem' : '1rem'
+          }}
+        >
+          <FontAwesomeIcon icon={icon} className="text-primary" />
         </div>
-        <div className="ms-3">
-          <div className="text-muted small" style={{ fontSize: '0.8rem' }}>{title}</div>
+        <div className="ms-2 ms-md-3 overflow-hidden">
+          <div className="text-muted text-truncate" style={{ fontSize: isMobile ? '0.75rem' : '0.85rem' }}>
+            {title}
+          </div>
           <div className="d-flex align-items-center flex-wrap">
-            <span className="h5 mb-0 me-1">{value}</span>
-            <span className={`small ${isUp ? 'text-success' : isIncrease ? 'text-danger' : 'text-success'}`} style={{ fontSize: '0.7rem' }}>
+            <span className="h6 h5-md mb-0 me-1" style={{ fontSize: isMobile ? '0.95rem' : '1.15rem' }}>
+              {value}
+            </span>
+            <span className={`small ${isUp ? 'text-success' : isIncrease ? 'text-danger' : 'text-success'}`} 
+              style={{ fontSize: isMobile ? '0.65rem' : '0.75rem' }}
+            >
               <FontAwesomeIcon icon={isUp ? faArrowUp : faArrowDown} className="me-1" size="xs" />
-              {change}
+              <span className="d-inline-block text-nowrap">{change}</span>
             </span>
           </div>
         </div>
@@ -185,9 +211,9 @@ const RevenueGraph = () => {
 const Home = () => {
   return (
     <main className='home-bg-color'>
-      <div className="dashBoardNavContent">
-        <section className="container-fluid py-4 mb-3">
-          <div className="row align-items-center">
+      <div className="dashBoardNavContent px-0">
+        <section className="container-fluid py-4 mb-3 px-3">
+          <div className="row align-items-center mx-0">
             <div className="col-auto">
               <img src={sparkleImg} alt="Sparkle" width="32" />
             </div>
@@ -198,8 +224,8 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="bg-white rounded mx-2 py-3 mb-3 py-md-4 px-md-5">
-          <div className="row justify-content-center">
+        <section className="bg-white rounded mx-3 py-4 mb-4 py-md-4 px-md-5" style={{ maxWidth: '590px', margin: '0 auto' }}>
+          <div className="row justify-content-center mx-0">
             <IconCard 
               icon={faFileInvoice} 
               label="New Invoice" 
@@ -218,8 +244,8 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="mx-2 mb-4">
-          <div className="row gx-3">
+        <section className="mx-3 mb-4">
+          <div className="row gx-3 mx-0">
             <MetricCard 
               title="Total Revenue" 
               value="₹24,970" 
@@ -259,11 +285,11 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="mx-2 mb-4">
+        <section className="mx-3 mb-4">
           <RevenueGraph />
         </section>
 
-        <section className="bg-white rounded mx-2 py-4 mb-3 px-md-5">
+        <section className="bg-white rounded mx-3 py-4 mb-3 px-md-5">
           <Tabs />
         </section>
       </div>

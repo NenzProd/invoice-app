@@ -151,7 +151,16 @@ const Dashboard = () => {
       <div className="content-container">
         <Navbar onMenuClick={toggleSidebar} text={navText} />
         <main className="dashboard-body">
-          <Outlet />
+          <div className="px-0 px-lg-4">
+            <div className="lg-row">
+              <div className="col-12 col-lg-9">
+                <Outlet />
+              </div>
+              <div className="col-lg-3 d-none d-lg-block">
+                {/* This space is intentionally left empty */}
+              </div>
+            </div>
+          </div>
         </main>
       </div>
     </div>

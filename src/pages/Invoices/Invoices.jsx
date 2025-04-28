@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faFileInvoice } from '@fortawesome/free-solid-svg-icons';  
 import { useNavigate } from 'react-router-dom'; 
@@ -9,6 +9,23 @@ const Invoices = () => {
 
   const [activeTab, setActiveTab] = useState('unpaid');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check for mobile screen on mount and when window resizes
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkIfMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
 
   // Sample invoice data
   const invoices = [
@@ -101,11 +118,32 @@ const Invoices = () => {
     <div className="dashBoardNavContent">
       <section>
         <div>
-          <SearchBar 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search invoices by customer, ID, or date..."
-          />
+          <div className="d-flex align-items-center justify-content-between">
+            <div className="flex-grow-1">
+              <SearchBar 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search invoices by customer, ID, or date..."
+              />
+            </div>
+            {!isMobile && (
+              <div className="px-3">
+                <button 
+                  className="btn text-white d-flex align-items-center"
+                  style={{ 
+                    backgroundColor: '#2ecc71',
+                    border: 'none',
+                    padding: '8px 16px',
+                    fontWeight: '500'
+                  }} 
+                  onClick={handleCreateInvoice}
+                >
+                  <FontAwesomeIcon icon={faPlus} className="me-2" />
+                  <span>Add New</span>
+                </button>
+              </div>
+            )}
+          </div>
           <ul className="dashBoardNavBox list-unstyled d-flex align-items-center justify-content-center pt-3 mb-0">
             <li className={`col-3 text-center dash-child-tabs ${activeTab === 'unpaid' ? 'active' : ''}`}>
               <button className="px-2 pb-2 navTabsBtn" onClick={() => handleTabClick('unpaid')}>Unpaid</button>
@@ -143,19 +181,21 @@ const Invoices = () => {
         </div>
       </section>
       
-      <button 
-        className="btn btn-primary rounded-circle position-fixed"
-        style={{ 
-          bottom: '20px', 
-          right: '20px', 
-          width: '50px', 
-          height: '50px',
-          fontSize: '20px'
-        }}
-        onClick={handleCreateInvoice}
-      >
-        <FontAwesomeIcon icon={faPlus} />
-      </button>
+      {isMobile && (
+        <button 
+          className="btn btn-primary rounded-circle position-fixed"
+          style={{ 
+            bottom: '20px', 
+            right: '20px', 
+            width: '50px', 
+            height: '50px',
+            fontSize: '20px'
+          }}
+          onClick={handleCreateInvoice}
+        >
+          <FontAwesomeIcon icon={faPlus} />
+        </button>
+      )}
     </div>
   );
 };

@@ -56,6 +56,9 @@ const Navbar = ({ onMenuClick, text }) => {
           <h5 className="m-0">{text}</h5>
         </div>
         <div className="d-flex align-items-center gap-3">
+          <div className="d-none d-md-block">
+            <span className="fw-medium">Tensketch</span>
+          </div>
           <div className="dropdown">
             <button
               className="btn btn-success d-flex align-items-center gap-2"

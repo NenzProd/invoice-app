@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faSave } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 const LineItem = () => {
@@ -14,6 +14,7 @@ const LineItem = () => {
   })
   const [showSuggestions, setShowSuggestions] = useState(false)
   const suggestionRef = useRef(null)
+  const [saveType, setSaveType] = useState('save') // 'save' or 'saveAndNew'
   
   // Get existing items from location state if available
   const [existingItems, setExistingItems] = useState([])
@@ -81,7 +82,7 @@ const LineItem = () => {
     navigate(-1)
   }
 
-  const handleSave = () => {
+  const handleSave = (type = 'save') => {
     if (!formData.item || !formData.rate) {
       alert('Please fill in all required fields')
       return
@@ -99,6 +100,7 @@ const LineItem = () => {
     // Combine with existing items
     const updatedItems = [...existingItems, newItem]
     
+    if (type === 'save') {
     // Navigate back to CreateInvoice with updated items
     navigate('/dashboard/createInvoice', { 
       state: { 
@@ -106,33 +108,16 @@ const LineItem = () => {
         fromLineItem: true
       } 
     })
-  }
-
-  const handleSaveAndNew = () => {
-    if (!formData.item || !formData.rate) {
-      alert('Please fill in all required fields')
-      return
-    }
-    
-    // Create a new item object with unique id
-    const newItem = {
-      id: Date.now(), // Simple way to generate unique id
-      name: formData.item,
-      description: formData.description,
-      quantity: parseFloat(formData.quantity),
-      rate: parseFloat(formData.rate)
-    }
-    
-    // Update existing items (will be used when saving)
-    setExistingItems([...existingItems, newItem])
-    
-    // Reset form for a new entry
+    } else {
+      // Update existing items and reset form for a new entry
+      setExistingItems(updatedItems)
     setFormData({
       item: '',
       description: '',
       quantity: '1.00',
-      rate: ''
+        rate: ''
     })
+    }
   }
 
   const handleInputChange = (e) => {
@@ -160,14 +145,47 @@ const LineItem = () => {
 
   return (
     <div className='bg-light min-vh-100'>
-      <div className='d-flex align-items-center p-3 bg-white border-bottom'>
+      <div className='d-flex align-items-center justify-content-between p-3 bg-white border-bottom'>
+        <div className='d-flex align-items-center'>
         <FontAwesomeIcon 
           icon={faArrowLeft} 
-          className='me-3' 
+            className='me-3 text-secondary' 
           onClick={handleBack}
           style={{ cursor: 'pointer' }} 
         />
         <h5 className='mb-0'>Add Line Item</h5>
+        </div>
+        <div className='d-flex align-items-center gap-3'>
+          <div className="dropdown">
+            <button
+              className="btn btn-primary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <FontAwesomeIcon icon={faSave} className="me-2" />
+              Save
+            </button>
+            <ul className="dropdown-menu dropdown-menu-end">
+              <li>
+                <button 
+                  className="dropdown-item"
+                  onClick={() => handleSave('save')}
+                >
+                  Save
+                </button>
+              </li>
+              <li>
+                <button 
+                  className="dropdown-item"
+                  onClick={() => handleSave('saveAndNew')}
+                >
+                  Save and New
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div className='p-3'>
@@ -222,15 +240,15 @@ const LineItem = () => {
 
           <div className='mb-3'>
             <label className='form-label text-primary'>Quantity <span className='text-danger'>*</span></label>
-            <input
-              type='number'
-              className='form-control'
-              placeholder='Enter quantity'
-              name='quantity'
-              value={formData.quantity}
-              onChange={handleInputChange}
-              required
-            />
+              <input
+                type='number'
+                className='form-control'
+                placeholder='Enter quantity'
+                name='quantity'
+                value={formData.quantity}
+                onChange={handleInputChange}
+                required
+              />
           </div>
 
           <div className='mb-3'>
@@ -246,21 +264,6 @@ const LineItem = () => {
             />
           </div>
         </div>
-      </div>
-
-      <div className='position-fixed bottom-0 w-100 d-flex bg-white border-top p-2'>
-        <button 
-          className='btn btn-outline-primary flex-grow-1 me-2'
-          onClick={handleSaveAndNew}
-        >
-          Save and New
-        </button>
-        <button 
-          className='btn btn-primary flex-grow-1'
-          onClick={handleSave}
-        >
-          Save
-        </button>
       </div>
     </div>
   )
